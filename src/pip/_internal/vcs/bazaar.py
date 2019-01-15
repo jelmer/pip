@@ -58,14 +58,15 @@ class Bazaar(VersionControl):
             rev_display,
             display_path(dest),
         )
-        cmd_args = ['branch', '-q'] + rev_options.to_args() + [url, dest]
+        cmd_args = (['checkout', '--lightweight', '-q'] +
+                    rev_options.to_args() + [url, dest])
         self.run_command(cmd_args)
 
     def switch(self, dest, url, rev_options):
         self.run_command(['switch', url], cwd=dest)
 
-    def update(self, dest, url, rev_options):
-        cmd_args = ['pull', '-q'] + rev_options.to_args()
+    def update(self, dest, rev_options):
+        cmd_args = ['update', '-q'] + rev_options.to_args()
         self.run_command(cmd_args, cwd=dest)
 
     def get_url_rev_and_auth(self, url):
